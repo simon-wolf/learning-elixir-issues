@@ -1,5 +1,4 @@
 defmodule Issues.CLI do
-
   @default_count 4
 
   @moduledoc """
@@ -24,27 +23,29 @@ defmodule Issues.CLI do
   if help was given.
   """
   def parse_args(argv) do
-    OptionParser.parse(argv, switches: [ help: :boolean ], aliases: [ h: :help ])
+    OptionParser.parse(argv, switches: [help: :boolean], aliases: [h: :help])
     |> elem(1)
     |> args_to_internal_representation()
   end
 
   def args_to_internal_representation([user, project, count]) do
-    { user, project, String.to_integer(count) }
+    {user, project, String.to_integer(count)}
   end
 
   def args_to_internal_representation([user, project]) do
-    { user, project, @default_count }
+    {user, project, @default_count}
   end
 
-  def args_to_internal_representation(_) do  # bad arg or --help
+  # bad arg or --help
+  def args_to_internal_representation(_) do
     :help
   end
 
   def process(:help) do
-    IO.puts """
+    IO.puts("""
     usage: issues <user> <project> [ count | #{@default_count} ]
-    """
+    """)
+
     System.halt(0)
   end
 
